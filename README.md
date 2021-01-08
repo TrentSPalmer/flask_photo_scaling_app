@@ -23,3 +23,7 @@ dnsmasq
 ```conf
 192.168.X.XXX         photos.example_host  photo_app.example_host
 ```
+
+## email white list
+in order to register, login to the psql command line and insert
+your email address into the email_white_list table
