@@ -1,0 +1,15 @@
+[Unit]
+Description=Photo Application
+After=network.target
+
+[Service]
+User=<app_user>
+Group=<app_user>
+WorkingDirectory=/var/lib/<app_user>
+Environment=FLASK_DEBUG=0
+# apt-get install python3-gunicorn gunicorn
+ExecStart=/usr/bin/gunicorn3 --access-logfile '-' -b 127.0.0.1:8200 -w 1 <app_user>:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
