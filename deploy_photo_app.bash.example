@@ -1,0 +1,50 @@
+#!/bin/bash
+# deploy_photo_app.bash
+
+
+SOURCE="/home/<user>/flaskapps/photo_app"
+DESTINATION="/var/lib/<app_user>"
+
+cp -v "$SOURCE"/config.py "$DESTINATION"/
+cp -v "$SOURCE"/photo_app.py "$DESTINATION"/
+
+cp -v "$SOURCE"/app/__init__.py "$DESTINATION"/app/
+cp -v "$SOURCE"/app/routes.py "$DESTINATION"/app/
+cp -v "$SOURCE"/app/sendxmpp_handler.py "$DESTINATION"/app/
+cp -v "$SOURCE"/app/models.py "$DESTINATION"/app/
+cp -v "$SOURCE"/app/forms.py "$DESTINATION"/app/
+cp -v "$SOURCE"/app/email.py "$DESTINATION"/app/
+
+cp -v "$SOURCE"/app/templates/base.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/index.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/login.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/register.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/reset_password.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/reset_password_request.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/edit_profile.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/change_password.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/qr.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/disable_2fa.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/two_factor_input.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/upload.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/photo.html "$DESTINATION"/app/templates/
+cp -v "$SOURCE"/app/templates/delete_photo.html "$DESTINATION"/app/templates/
+
+cp -v "$SOURCE"/app/templates/email/reset_password_email_html.html "$DESTINATION"/app/templates/email/
+cp -v "$SOURCE"/app/templates/email/reset_password_email_text.txt "$DESTINATION"/app/templates/email/
+
+cp -v "$SOURCE"/app/scripts/set_contributor_id_seq.py "$DESTINATION"/app/scripts/
+cp -v "$SOURCE"/app/scripts/totp_utils.py "$DESTINATION"/app/scripts/
+cp -v "$SOURCE"/app/scripts/process_uploaded_photo.py "$DESTINATION"/app/scripts/
+cp -v "$SOURCE"/app/scripts/crop_photo.py "$DESTINATION"/app/scripts/
+cp -v "$SOURCE"/app/scripts/get_exif_data.py "$DESTINATION"/app/scripts/
+cp -v "$SOURCE"/app/scripts/get_photo_list.py "$DESTINATION"/app/scripts/
+cp -v "$SOURCE"/app/scripts/delete_photo.py "$DESTINATION"/app/scripts/
+
+cp -v "$SOURCE"/css/photo_app.css "$DESTINATION"/css/
+
+cp -v "$SOURCE"/js/photo_app.js "$DESTINATION"/js/
+
+chown -R photo_app:photo_app "$DESTINATION"
+
+chmod 600 "$DESTINATION"/.env
