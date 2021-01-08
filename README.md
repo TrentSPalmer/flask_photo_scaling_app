@@ -15,6 +15,7 @@ outside of the flask app
 ## dns
 
 login to your dns provider and add A and AAAA records for photo_app.example.com
+and add A and AAA records for photos.example.com
 
 or for LAN testing or deployment, if you are running dnsmasq on your router, you
 can add something like the following to the `/etc/hosts` file, and then restart
