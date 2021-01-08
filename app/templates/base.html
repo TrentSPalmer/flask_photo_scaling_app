@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="author" content="TrentSPalmer">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href='/css/photo_app.css'>
+    <script type="text/javascript" src="/js/photo_app.js"></script>
+    {% block head %} {% endblock %}
+    {% if title %}
+    <title>{{title}}</title>
+    {% else %}
+    <title>Mrs Trent's Recipes</title>
+    {% endif %}
+  </head>
+  <body>
+    <div id="navbarContainerContainer">
+      <div id="hamburgerContainerContainer">
+        <div id="hamburgerContainer">
+          <button id="hamburger" onclick="hamburgerToggle(1)">
+            <div></div>
+            <div></div>
+            <div></div>
+          </button>
+          <button id="hamburgerClose" onclick="hamburgerToggle(0)">
+            <div id="xa"></div>
+            <div id="xb"></div>
+          </button>
+          {% block morenavs %} {% endblock %}
+        </div>
+      </div>
+      <div id="navbarContainer">
+        <div id="navbarLeftContainer">
+          <nav id="navbar">
+            <a href="{{ url_for('index') }}"><div class="navbarLink">home</div></a>
+            {% if current_user.is_authenticated %}
+              <div class="navbarSpacer"></div>
+              <a href="{{ url_for('logout') }}"><div class="navbarLink">logout</div></a>
+              <div class="navbarSpacer"></div>
+              <a href="{{ url_for('edit_profile') }}"><div class="navbarLink">edit profile</div></a>
+              <div class="navbarSpacer"></div>
+              <a href="{{ url_for('photo_upload') }}"><div class="navbarLink">photo upload</div></a>
+            {% else %}
+              <div class="navbarSpacer"></div>
+              <a href="{{ url_for('login') }}"><div class="navbarLink">contributor login</div></a>
+            {% endif %}
+          </nav>
+        </div>
+      </div>
+    </div>
+    <div id="main">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      {% for message in messages %}
+      <div class="flashContainer">{{message}}</div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      {% if current_user.is_authenticated %}
+        <p id="userGreeting">Logged in as: {{ current_user.name }}</p>
+      {% else %}
+        <p id="userGreeting"> viewing as guest</p>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

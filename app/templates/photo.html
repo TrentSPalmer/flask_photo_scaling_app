@@ -1,0 +1,233 @@
+<style>
+  img {
+    width: 400px;
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+</style>
+
+{% extends "base.html" %}
+
+
+{% block morenavs %}
+  <button id="previousPhoto" class="navBracket" onclick="location.href='{{ url_for('photo', photo_id=photo.previous_photo_id) }}';">&#8249;</button>
+  <button class="navBracket delButton" onclick="location.href='{{ url_for('delete', photo_id=photo.id) }}';">DEL</button>
+  <button id="nextPhoto" class="navBracket" onclick="location.href='{{ url_for('photo', photo_id=photo.next_photo_id) }}';">&#8250;</button>
+  <style>
+    #main {
+      max-width: unset;
+      width: 100vw;
+    }
+
+    .delButton {
+      padding-top: 3px;
+      padding-bottom: 0px;
+      font-size: 2rem;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+
+<div class="photoContainer" id="gestureZone">
+  <img style="width: 600;" src={{ photo_url + 'raw_' + photo['photo_name'] }} alt={{ 'raw_' + photo['photo_name'] }}>
+  <div class="photoRow">
+    <div class="dataContainer">
+      <div class="headingRow">
+        <h2 class="photoPageH2">Original as Uploaded</h2>
+        <a href="{{ url_for('download', file='raw_' + photo.photo_name)}}" download="{{ 'raw_' + photo.photo_name }}" target="_blank">
+          <button class="downloadButton">Download</button>
+        </a>
+      </div>
+      <p>
+        <a class="blue" href={{ photo_url + 'raw_' + photo['photo_name'] }}>{{ photo_url + 'raw_' + photo.photo_name }}</a>
+      </p>
+      {% if photo.Make != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">Make:</div>
+          <div class="dataRowRight">{{ photo.Make }}</div>
+        </div>
+      {% endif %}
+      {% if photo.Model != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">Model:</div>
+          <div class="dataRowRight">{{ photo.Model }}</div>
+        </div>
+      {% endif %}
+      {% if photo.Software != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">Software:</div>
+          <div class="dataRowRight">{{ photo.Software }}</div>
+        </div>
+      {% endif %}
+      <div class="dataRow">
+        <div class="dataRowLeft">Upload Date:</div>
+        <div class="dataRowRight">{{ photo.UploadDate }}</div>
+      </div>
+      {% if photo.DateTime != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">DateTime:</div>
+          <div class="dataRowRight">{{ photo.DateTime }}</div>
+        </div>
+      {% endif %}
+      {% if photo.DateTimeOriginal != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">DateTimeOriginal:</div>
+          <div class="dataRowRight">{{ photo.DateTimeOriginal }}</div>
+        </div>
+      {% endif %}
+      {% if photo.DateTimeDigitized != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">DateTimeDigitized:</div>
+          <div class="dataRowRight">{{ photo.DateTimeDigitized }}</div>
+        </div>
+      {% endif %}
+      {% if photo.TimeZoneOffset != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">TimeZoneOffset:</div>
+          <div class="dataRowRight">{{ photo.TimeZoneOffset }}</div>
+        </div>
+      {% endif %}
+      <div class="dataRow">
+        <div class="dataRowLeft">SizeOnDisc:</div>
+        <div class="dataRowRight">{{ photo.SizeOnDisc }}</div>
+      </div>
+      <div class="dataRow">
+        <div class="dataRowLeft">Width / Height:</div>
+        <div class="dataRowRight">{{ photo.photo_width }} / {{ photo.photo_height }}</div>
+      </div>
+      {% if photo.AspectRatio != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">AspectRatio:</div>
+          <div class="dataRowRight">{{ photo.AspectRatio }}</div>
+        </div>
+      {% endif %}
+      {% if photo.DigitalZoomRatio != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">DigitalZoomRatio:</div>
+          <div class="dataRowRight">{{ photo.DigitalZoomRatio }}</div>
+        </div>
+      {% endif %}
+      {% if photo.fnumber != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">fnumber:</div>
+          <div class="dataRowRight">{{ photo.fnumber }}</div>
+        </div>
+      {% endif %}
+      {% if photo.GPSAltitude != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">Altitude Meters:</div>
+          <div class="dataRowRight">{{ photo.GPSAltitude }}</div>
+        </div>
+      {% endif %}
+      {% if photo.GPSAltitudeFeet != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">Altitude Feet:</div>
+          <div class="dataRowRight">{{ photo.GPSAltitudeFeet }}</div>
+        </div>
+      {% endif %}
+      {% if photo.GPSAboveSeaLevel != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">Above Sea Level:</div>
+          <div class="dataRowRight">{{ photo.GPSAboveSeaLevel }}</div>
+        </div>
+      {% endif %}
+      {% if photo.LatLong != None %}
+        <div class="dataRow">
+          <div class="dataRowLeft">GPS Coordinates:</div>
+          <div class="dataRowRight">
+            <a class="blue" href={{ photo.MapUrl }} rel="noopener noreferrer" target="_blank">
+              {{ photo.LatLong }}
+            </a>
+          </div>
+        </div>
+      {% endif %}
+      <div class="dataRow">
+        <div class="dataRowLeft">PhotoFormat:</div>
+        <div class="dataRowRight">{{ photo.photo_format }}</div>
+      </div>
+    </div>
+    <div class="photo">
+      <img src={{ photo_url + 'raw_' + photo['photo_name'] }} alt={{ 'raw_' + photo['photo_name'] }}>
+    </div>
+  </div>
+  <div class="photoRow">
+    <div class="dataContainer">
+      <div class="headingRow">
+        <h2 class="photoPageH2">1280 Max-Conversion</h2>
+        <a href="{{ url_for('download', file='1280_' + photo.photo_name)}}" download="{{ '1280_' + photo.photo_name }}" target="_blank">
+          <button class="downloadButton">Download</button>
+        </a>
+      </div>
+      <p>
+        <a class="blue" href={{ photo_url + '1280_' + photo['photo_name'] }}>{{ photo_url + '1280_' + photo.photo_name }}</a>
+      </p>
+      <div class="dataRow">
+        <div class="dataRowLeft">SizeOnDisc:</div>
+        <div class="dataRowRight">{{ photo.SizeOnDisc1280 }}</div>
+      </div>
+      <div class="dataRow">
+        <div class="dataRowLeft">Width / Height:</div>
+        <div class="dataRowRight">{{ photo.photo_1280_width }} / {{ photo.photo_1280_height }}</div>
+      </div>
+    </div>
+    <div class="photo">
+      <img src={{ photo_url + '1280_' + photo['photo_name'] }} alt={{ '1280_' + photo['photo_name'] }}>
+    </div>
+  </div>
+  <div class="photoRow">
+    <div class="dataContainer">
+      <div class="headingRow">
+        <h2 class="photoPageH2">480 Max-Conversion</h2>
+        <a href="{{ url_for('download', file='480_' + photo.photo_name)}}" download="{{ '480_' + photo.photo_name }}" target="_blank">
+          <button class="downloadButton">Download</button>
+        </a>
+      </div>
+      <p>
+        <a class="blue" href={{ photo_url + '480_' + photo['photo_name'] }}>{{ photo_url + '480_' + photo.photo_name }}</a>
+      </p>
+      <div class="dataRow">
+        <div class="dataRowLeft">SizeOnDisc:</div>
+        <div class="dataRowRight">{{ photo.SizeOnDisc480 }}</div>
+      </div>
+      <div class="dataRow">
+        <div class="dataRowLeft">Width / Height:</div>
+        <div class="dataRowRight">{{ photo.photo_480_width }} / {{ photo.photo_480_height }}</div>
+      </div>
+    </div>
+    <div class="photo">
+      <img src={{ photo_url + '480_' + photo['photo_name'] }} alt={{ '480_' + photo['photo_name'] }}>
+    </div>
+  </div>
+</div>
+
+<script>
+let touchstartX = 0;
+let touchendX = 0;
+
+const gestureZone = document.getElementById('gestureZone');
+
+gestureZone.addEventListener('touchstart', function(event) {
+    touchstartX = event.changedTouches[0].screenX;
+}, false);
+
+gestureZone.addEventListener('touchend', function(event) {
+    touchendX = event.changedTouches[0].screenX;
+    handleGesture();
+}, false); 
+
+function handleGesture() {
+    if (touchendX <= touchstartX - 100) {
+        console.log('Swiped left');
+        location.href='{{ url_for('photo', photo_id=photo.next_photo_id) }}';
+    }
+    
+    if (touchendX >= touchstartX + 100) {
+        console.log('Swiped right');
+        location.href='{{ url_for('photo', photo_id=photo.previous_photo_id) }}';
+    }
+}
+activateHotKeys();
+</script>
+{% endblock %}

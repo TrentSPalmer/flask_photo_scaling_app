@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block morenavs %}
+  <style>
+
+    #main {
+      max-width: unset;
+      width: 100vw;
+    }
+
+    .indexPagePhotos {
+      margin-top: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 55px;
+      column-gap: 55px;
+    }
+
+    .photoContainer {
+      width: 400px;
+      max-width: 80%;
+      margin-top: 0;
+    }
+
+    img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+    }
+
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="indexPagePhotos">
+    {% for photo in photos %}
+      <div class="photoContainer">
+        <a href={{ url_for('photo', photo_id=photo['id']) }}>
+          <img src={{ photo_url + '480_' + photo['photo_name'] }} alt={{ '480_' + photo['photo_name'] }}>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

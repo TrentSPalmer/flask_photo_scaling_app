@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="formContainer">
+    <h1>Sign In</h1>
+    <h3>(username Or email)</h3>
+    <form action='' method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.username.label }}<br>
+        {{ form.username(size=24) }}
+        {% for error in form.username.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.email.label }}<br>
+        {{ form.email(size=24) }}
+        {% for error in form.email.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.password.label }}<br>
+        {{ form.password(size=24) }}
+        {% for error in form.password.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+      </p>
+      <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+      <p>{{ form.submit() }}</p>
+    </form>
+        <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p>
+        <p>
+          Forgot Your Password? <a href="{{ url_for('reset_password_request') }}">Click to Reset It</a>
+        </p>
+  </div>
+{% endblock %}
+

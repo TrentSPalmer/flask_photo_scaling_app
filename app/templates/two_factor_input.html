@@ -1,0 +1,45 @@
+<style>
+#totpp {
+  margin-top: 10%;
+  margin-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50px;
+  justify-content: space-between;
+}
+
+#submitContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#submit {
+  margin-top: 30px;
+}
+
+h3 {
+  align-self: center;
+  margin-top: 10%;
+}
+</style>
+
+{% extends "base.html" %}
+
+{% block content %}
+      <h3>{{ inst }}</h3>
+  <div class='formContainer'>
+    
+    <form action={{ url_for('two_factor_input') }} method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <p id="totpp">
+        {{ form.totp_code.label }}<br>
+        {% for error in form.totp_code.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+        {{ form.totp_code(size=6) }}
+      </p>
+      <p id="submitContainer">{{ form.submit() }}</p>
+    </form>
+  </div>
+{% endblock %}

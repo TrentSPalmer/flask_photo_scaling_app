@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="formContainer">
+    <h1>Edit Profile</h1>
+    <form action='' method="post" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+        {{ form.username.label }}<br>
+        <span class="inputInfo">
+          letters and digits only (i.e. no spaces)
+        </span><br>
+        {{ form.username(size=24) }}
+        {% for error in form.username.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.email.label }}<br>
+        {{ form.email(size=24) }}
+        {% for error in form.email.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ form.password.label }}<br>
+        {{ form.password(size=24) }}
+        {% for error in form.password.errors %}
+        <span class="formWarning">[{{error}}]</span>
+        {% endfor %}
+      </p>
+      <p>{{ form.submit() }}</p>
+    </form>
+    {% if current_user.is_authenticated %}
+      <div>
+        <button class="formButton" onclick="location.href='{{ url_for('change_password') }}';">Change Password</button>
+      </div>
+      {% if contributor_use_totp %}
+        <div>
+          <button class="formButton" onclick="location.href='{{ url_for('disable_totp') }}';">Disable 2 Factor</button>
+        </div>
+      {% else %}
+        <div>
+          <button class="formButton" onclick="location.href='{{ url_for('enable_totp') }}';">Enable 2 Factor</button>
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}

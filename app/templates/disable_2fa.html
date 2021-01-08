@@ -1,0 +1,23 @@
+<style>
+.formContainer {
+  align-items: center;
+  margin-top: 100px;
+}
+
+#submitContainer {
+  margin-top: 100px;
+}
+</style>
+
+{% extends "base.html" %}
+
+{% block content %}
+  <div class='formContainer'>
+    
+    <form action="" method="post" novalidate>
+      <h2>Disable 2FA?</h2>
+      {{ form.hidden_tag() }}
+      <p id="submitContainer">{{ form.submit() }}</p>
+    </form>
+  </div>
+{% endblock %}

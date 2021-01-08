@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="formContainer">
+    <h1>{{ title }}</h1>
+    <form action="" method="post" enctype="multipart/form-data" novalidate>
+      {{ form.hidden_tag() }}
+      <p>
+      {{ form.image.label }}<br>
+        <span class="inputInfo imageInputInfo">
+          suggest max 3MB
+        </span><br>
+        {{ form.image(style="width: 100%; margin-top: 40px;") }}
+      </p>
+      <p>{{ form.submit() }}</p>
+    </form>
+  </div>
+{% endblock %}
+
