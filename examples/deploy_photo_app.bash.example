@@ -1,5 +1,5 @@
 #!/bin/bash
-# deploy_photo_app.bash
+# /usr/local/sbin/deploy_photo_app.bash
 
 
 SOURCE="/home/<user>/flaskapps/photo_app"
@@ -48,3 +48,5 @@ cp -v "$SOURCE"/js/photo_app.js "$DESTINATION"/js/
 chown -R photo_app:photo_app "$DESTINATION"
 
 chmod 600 "$DESTINATION"/.env
+
+chown root:root /usr/local/sbin/deploy_photo_app.bash
