@@ -6,7 +6,7 @@
 if you want to generate html output, the command is `\pset format html`  
 but you probably want the default format which is *aligned*
 
-## create database and role
+## create database and role (psql command line)
 
 `CREATE DATABASE <application_database_name>;`  
 `CREATE ROLE <application_unix_user> WITH LOGIN;`  
@@ -25,11 +25,12 @@ local   all                           all                                     pe
 
 and then restart postgresql `systemctl restart postgresql`
 
-## change database
+## change database (psql command line)
 
 `\c <application_database_name>`
 
-## create the database tables
+## create the database tables (bash command line)
+
 `sudo -u '<application_unix_user>' psql < create_database_tables.sql`
 
 ## sanity check
@@ -39,7 +40,7 @@ and insert your email address into the email_white_list table.
 verify the database table schemas against the models in `models.py`,
 and hopefully it matches what is below
 
-## describe database 
+## describe database (psql command line)
 `<application_database_name>=# \d`
 <table border="1">
 <caption>List of relations</caption>
@@ -90,7 +91,7 @@ and hopefully it matches what is below
 </p>
 
 
-## describe contributor table
+## describe contributor table (psql command line)
 `<application_database_name>=# \d contributor`
 <table border="1">
 <caption>Table &quot;public.contributor&quot;</caption>
@@ -157,7 +158,7 @@ and hopefully it matches what is below
 &nbsp;&nbsp;&nbsp;&nbsp;&quot;contributor_name_key&quot; UNIQUE CONSTRAINT, btree (name)<br />
 </p>
 
-## describe photo table
+## describe photo table (psql command line)
 `<application_database_name>=# \d photo`
 <table border="1">
 <caption>Table &quot;public.photo&quot;</caption>
@@ -378,7 +379,7 @@ and hopefully it matches what is below
 </p>
 
 
-## describe email_white_list
+## describe email_white_list (psql command line)
 `<application_database_name>=# \d email_white_list`
 <table border="1">
 <caption>Table &quot;public.email_white_list&quot;</caption>
