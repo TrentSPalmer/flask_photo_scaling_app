@@ -7,6 +7,7 @@ def set_contributor_id_seq(app_config):
     conn = psycopg2.connect(
         dbname=app_config['DATABASE_NAME'],
         user=app_config['DATABASE_USER'],
+        host="/var/run/postgresql",
         password=app_config['DATABASE_PASSWORD']
     )
 

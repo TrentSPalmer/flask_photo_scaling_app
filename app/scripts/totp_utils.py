@@ -13,6 +13,7 @@ def get_totp_qr(contributor, app_config):
         conn = psycopg2.connect(
             dbname=app_config['DATABASE_NAME'],
             user=app_config['DATABASE_USER'],
+            host="/var/run/postgresql",
             password=app_config['DATABASE_PASSWORD']
         )
         cur = conn.cursor()
@@ -32,6 +33,7 @@ def validate_totp(contributor, totp_code, app_config):
         conn = psycopg2.connect(
             dbname=app_config['DATABASE_NAME'],
             user=app_config['DATABASE_USER'],
+            host="/var/run/postgresql",
             password=app_config['DATABASE_PASSWORD']
         )
         cur = conn.cursor()
@@ -47,6 +49,7 @@ def disable_2fa(contributor, app_config):
     conn = psycopg2.connect(
         dbname=app_config['DATABASE_NAME'],
         user=app_config['DATABASE_USER'],
+        host="/var/run/postgresql",
         password=app_config['DATABASE_PASSWORD']
     )
     cur = conn.cursor()
