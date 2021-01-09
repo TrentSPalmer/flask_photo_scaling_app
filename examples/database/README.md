@@ -13,12 +13,24 @@ but you probably want the default format which is *aligned*
 `\password <application_unix_user>`  
 `GRANT ALL PRIVILEGES ON DATABASE <application_database_name> TO <application_unix_user>;`  
 
+## allow app user in postgresql
+
+add line **above** `local   all    all    peer`
+
+```conf
+# /etc/postgresql/11/main/pg_hba.conf
+local   <application_unix_user>       <application_unix_user>                 md5
+local   all                           all                                     peer
+```
+
+and then restart postgresql `systemctl restart postgresql`
+
 ## change database
 
 `\c <application_database_name>`
 
 ## create the database tables
-`sudo -u postgres psql < create_database_tables.sql`
+`sudo -u '<application_unix_user>' psql < create_database_tables.sql`
 
 ## sanity check
 In order to be able to register, login to the psql command line
