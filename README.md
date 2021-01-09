@@ -51,3 +51,35 @@ xmpp accounts, i.e. setting up an Prosody server.
 
 If this isn't possible, you could use a different logging handler,
 such as SMTPHandler, or just look in the systemd-journal.
+
+## requirements on Debian 10
+### apache modules
+* `a2enmod proxy_http`
+* `a2enmod expires`
+* `a2enmod headers`
+* `a2enmod userdir`
+### debian packages
+```shell
+apt-get install apache2 postgresql postgresql-contrib
+apt-get install python3-gunicorn gunicorn3
+apt-get install python3-qrcode python3-pil sendxmpp python3-wtforms python3-dotenv
+apt-get install python3-flask python3-flask-sqlalchemy python3-psycopg2
+apt-get install python3-flask-login python3-jwt python3-flaskext.wtf
+apt-get install python3-flask-mail python3-zxcvbn python3-pyotp
+```
+
+For 2fa, you can use an authenticator application such as
+*Google Authenticator* or *andOTP* on your smartphone.
+
+## installation instructions
+1. clone the git repo
+2. create nologin unix user `useradd -r -s /sbin/nologin <app_user>`
+2. create all necessary deploy_script target directories `/var/lib/<app_user>/*`
+2. adjust and then run the deploy script
+2. set up database (see examples)
+2. populate `/var/lib/<app_user>/.env` file
+2. populate email_white_list from psql command line
+2. enable and start two apache virtual hosts
+2. install certbot and get certs for each of the two subdomains
+2. install service file in `/etc/systemd/system`
+2. enable and start systemd service
