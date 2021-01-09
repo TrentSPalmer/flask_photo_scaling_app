@@ -1,3 +1,5 @@
+![](https://github.com/TrentSPalmer/flask_photo_scaling_app/blob/master/examples/1280_Screenshot_at_2021-01-08_21-44-19.png)
+
 This application allows you to upload photos, where are then automatically
 scaled down, using python3-pillow, and saved into an adjacent directory
 which is served from a different subdomain.
