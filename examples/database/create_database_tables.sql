@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS photo(
   contributor_id INT NOT NULL,
   timestamp TIMESTAMP WITHOUT TIME ZONE,
   timestamp_int BIGINT,
-  photo_format CHAR(12),
+  photo_format VARCHAR(12),
   photo_width INT,
   photo_height INT,
   photo_1280_width INT,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS photo(
 ALTER TABLE photo ADD COLUMN IF NOT EXISTS contributor_id INT NOT NULL;
 ALTER TABLE photo ADD COLUMN IF NOT EXISTS timestamp TIMESTAMP WITHOUT TIME ZONE;
 ALTER TABLE photo ADD COLUMN IF NOT EXISTS timestamp_int BIGINT;
-ALTER TABLE photo ADD COLUMN IF NOT EXISTS photo_format CHAR(12);
+ALTER TABLE photo ADD COLUMN IF NOT EXISTS photo_format VARCHAR(12);
 ALTER TABLE photo ADD COLUMN IF NOT EXISTS photo_width INT;
 ALTER TABLE photo ADD COLUMN IF NOT EXISTS photo_height INT;
 ALTER TABLE photo ADD COLUMN IF NOT EXISTS photo_1280_width INT;
