@@ -14,6 +14,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DATABASE_NAME = os.environ.get('DATABASE_NAME')
     DATABASE_USER = os.environ.get('DATABASE_USER')
+    DATABASE_HOST = os.environ.get('DATABASE_HOST')
     DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD')
 
     LOGGING_XMPP_SERVER = os.environ.get('LOGGING_XMPP_SERVER')

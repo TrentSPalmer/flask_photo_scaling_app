@@ -13,7 +13,7 @@ def process_uploaded_photo(filename, current_user, app_config):
     conn = psycopg2.connect(
         dbname=app_config['DATABASE_NAME'],
         user=app_config['DATABASE_USER'],
-        host="/var/run/postgresql",
+        host=app_config['DATABASE_HOST'],
         password=app_config['DATABASE_PASSWORD']
     )
     cur = conn.cursor()
