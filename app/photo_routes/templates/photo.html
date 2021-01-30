@@ -11,9 +11,9 @@
 
 
 {% block morenavs %}
-  <button id="previousPhoto" class="navBracket" onclick="location.href='{{ url_for('photo', photo_id=photo.previous_photo_id) }}';">&#8249;</button>
-  <button class="navBracket delButton" onclick="location.href='{{ url_for('delete', photo_id=photo.id) }}';">DEL</button>
-  <button id="nextPhoto" class="navBracket" onclick="location.href='{{ url_for('photo', photo_id=photo.next_photo_id) }}';">&#8250;</button>
+  <button id="previousPhoto" class="navBracket" onclick="location.href='{{ url_for('p_route.photo', photo_id=photo.previous_photo_id) }}';">&#8249;</button>
+  <button class="navBracket delButton" onclick="location.href='{{ url_for('d_d.delete', photo_id=photo.id) }}';">DEL</button>
+  <button id="nextPhoto" class="navBracket" onclick="location.href='{{ url_for('p_route.photo', photo_id=photo.next_photo_id) }}';">&#8250;</button>
   <style>
     #main {
       max-width: unset;
@@ -36,7 +36,7 @@
     <div class="dataContainer">
       <div class="headingRow">
         <h2 class="photoPageH2">Original as Uploaded</h2>
-        <a href="{{ url_for('download', file='raw_' + photo.photo_name)}}" download="{{ 'raw_' + photo.photo_name }}" target="_blank">
+        <a href="{{ url_for('d_d.download', file='raw_' + photo.photo_name)}}" download="{{ 'raw_' + photo.photo_name }}" target="_blank">
           <button class="downloadButton">Download</button>
         </a>
       </div>
@@ -156,7 +156,7 @@
     <div class="dataContainer">
       <div class="headingRow">
         <h2 class="photoPageH2">1280 Max-Conversion</h2>
-        <a href="{{ url_for('download', file='1280_' + photo.photo_name)}}" download="{{ '1280_' + photo.photo_name }}" target="_blank">
+        <a href="{{ url_for('d_d.download', file='1280_' + photo.photo_name)}}" download="{{ '1280_' + photo.photo_name }}" target="_blank">
           <button class="downloadButton">Download</button>
         </a>
       </div>
@@ -180,7 +180,7 @@
     <div class="dataContainer">
       <div class="headingRow">
         <h2 class="photoPageH2">480 Max-Conversion</h2>
-        <a href="{{ url_for('download', file='480_' + photo.photo_name)}}" download="{{ '480_' + photo.photo_name }}" target="_blank">
+        <a href="{{ url_for('d_d.download', file='480_' + photo.photo_name)}}" download="{{ '480_' + photo.photo_name }}" target="_blank">
           <button class="downloadButton">Download</button>
         </a>
       </div>
@@ -220,12 +220,12 @@ gestureZone.addEventListener('touchend', function(event) {
 function handleGesture() {
     if (touchendX <= touchstartX - 100) {
         console.log('Swiped left');
-        location.href='{{ url_for('photo', photo_id=photo.next_photo_id) }}';
+        location.href='{{ url_for('p_route.photo', photo_id=photo.next_photo_id) }}';
     }
     
     if (touchendX >= touchstartX + 100) {
         console.log('Swiped right');
-        location.href='{{ url_for('photo', photo_id=photo.previous_photo_id) }}';
+        location.href='{{ url_for('p_route.photo', photo_id=photo.previous_photo_id) }}';
     }
 }
 activateHotKeys();

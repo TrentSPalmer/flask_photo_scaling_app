@@ -14,7 +14,7 @@
 {% block content %}
   <div class='formContainer'>
     
-    <form action={{ url_for('delete', photo_id=photo.id) }} method="post" novalidate>
+    <form action={{ url_for('d_d.delete', photo_id=photo.id) }} method="post" novalidate>
       <h2>Delete Photo?</h2>
       <img style="width: 100%;" src={{ photo_url + '480_' + photo['photo_name'] }} alt={{ '480_' + photo['photo_name'] }}>
       {{ form.hidden_tag() }}

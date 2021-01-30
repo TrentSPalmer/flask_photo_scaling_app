@@ -32,17 +32,17 @@
       <div id="navbarContainer">
         <div id="navbarLeftContainer">
           <nav id="navbar">
-            <a href="{{ url_for('index') }}"><div class="navbarLink">home</div></a>
+            <a href="{{ url_for('proute.index') }}"><div class="navbarLink">home</div></a>
             {% if current_user.is_authenticated %}
               <div class="navbarSpacer"></div>
-              <a href="{{ url_for('logout') }}"><div class="navbarLink">logout</div></a>
+              <a href="{{ url_for('auths.logout') }}"><div class="navbarLink">logout</div></a>
               <div class="navbarSpacer"></div>
-              <a href="{{ url_for('edit_profile') }}"><div class="navbarLink">edit profile</div></a>
+              <a href="{{ url_for('prof.edit_profile') }}"><div class="navbarLink">edit profile</div></a>
               <div class="navbarSpacer"></div>
-              <a href="{{ url_for('photo_upload') }}"><div class="navbarLink">photo upload</div></a>
+              <a href="{{ url_for('pupload.photo_upload') }}"><div class="navbarLink">photo upload</div></a>
             {% else %}
               <div class="navbarSpacer"></div>
-              <a href="{{ url_for('login') }}"><div class="navbarLink">contributor login</div></a>
+              <a href="{{ url_for('auths.login') }}"><div class="navbarLink">contributor login</div></a>
             {% endif %}
           </nav>
         </div>

@@ -1,16 +1,37 @@
 #!/usr/bin/env python3
 
+from flask import Blueprint, redirect, url_for, current_app, render_template
+from flask_login import current_user
+from app.models import Photo
 import psycopg2
 import psycopg2.extras
-from shutil import disk_usage
+
+p_route = Blueprint(
+    "p_route", __name__, template_folder="templates"
+)
 
 
-def find_next_previous(photo, app_config):
+@p_route.route('/photo/<int:photo_id>')
+def photo(photo_id):
+    photo = Photo.query.get(photo_id)
+    if not current_user.is_authenticated or photo is None:
+        return(redirect(url_for('proute.index')))
+    find_next_previous(photo)
+    calc_additional_data(photo)
+    return render_template(
+        'photo.html',
+        title="Photo",
+        photo=photo,
+        photo_url=current_app.config['PHOTO_URL']
+    )
+
+
+def find_next_previous(photo):
     conn = psycopg2.connect(
-        dbname=app_config['DATABASE_NAME'],
-        user=app_config['DATABASE_USER'],
-        host=app_config['DATABASE_HOST'],
-        password=app_config['DATABASE_PASSWORD']
+        dbname=current_app.config['DATABASE_NAME'],
+        user=current_app.config['DATABASE_USER'],
+        host=current_app.config['DATABASE_HOST'],
+        password=current_app.config['DATABASE_PASSWORD']
     )
     cur = conn.cursor()
     cur.execute("SELECT count(id) FROM photo WHERE contributor_id=%s AND id > %s", (photo.contributor_id, photo.id))
@@ -53,26 +74,3 @@ def calc_additional_data(photo):
         photo.MapUrl = "https://www.google.com/maps/search/?api=1&query={}".format(photo.LatLong)
     else:
         photo.LatLong, photo.MapUrl = None, None
-
-
-def get_photo_list(contributor_id, app_config):
-    conn = psycopg2.connect(
-        dbname=app_config['DATABASE_NAME'],
-        user=app_config['DATABASE_USER'],
-        host=app_config['DATABASE_HOST'],
-        password=app_config['DATABASE_PASSWORD']
-    )
-    cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cur.execute("SELECT photo_name,id FROM photo WHERE contributor_id=%s ORDER BY timestamp,\"DateTimeOriginal\" DESC", (contributor_id, ))
-    photos = cur.fetchall()
-    conn.close()
-    return photos
-
-
-def get_disk_stats():
-    disk_stats = disk_usage('/')
-    return("Used {}GB of {}GB, {}GB free".format(
-        round(disk_stats.used / 1073741824, 1),
-        round(disk_stats.total / 1073741824, 1),
-        round(disk_stats.free / 1073741824, 1)
-    ))

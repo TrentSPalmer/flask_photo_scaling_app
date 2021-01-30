@@ -30,7 +30,7 @@ h3 {
       <h3>{{ inst }}</h3>
   <div class='formContainer'>
     
-    <form action={{ url_for('two_factor_input') }} method="post" novalidate>
+    <form action={{ url_for('auths.two_factor_input') }} method="post" novalidate>
       {{ form.hidden_tag() }}
       <p id="totpp">
         {{ form.totp_code.label }}<br>

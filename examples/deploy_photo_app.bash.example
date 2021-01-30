@@ -1,51 +1,72 @@
 #!/bin/bash
-# /usr/local/sbin/deploy_photo_app.bash
+# deploy_photo_app.bash
 
 
-SOURCE="/home/<user>/flaskapps/photo_app"
-DESTINATION="/var/lib/<app_user>"
+SOURCE="/home/trent/flaskapps/photo_app"
+DESTINATION="/var/lib/photo_app"
 
+[ ! -d "/var/lib/photo_app" ] && mkdir /var/lib/photo_app
 cp -v "$SOURCE"/config.py "$DESTINATION"/
 cp -v "$SOURCE"/photo_app.py "$DESTINATION"/
 
+[ ! -d "/var/lib/photo_app/app" ] && mkdir /var/lib/photo_app/app
 cp -v "$SOURCE"/app/__init__.py "$DESTINATION"/app/
-cp -v "$SOURCE"/app/routes.py "$DESTINATION"/app/
 cp -v "$SOURCE"/app/sendxmpp_handler.py "$DESTINATION"/app/
 cp -v "$SOURCE"/app/models.py "$DESTINATION"/app/
 cp -v "$SOURCE"/app/forms.py "$DESTINATION"/app/
-cp -v "$SOURCE"/app/email.py "$DESTINATION"/app/
 
+[ ! -d "/var/lib/photo_app/app/templates" ] && mkdir /var/lib/photo_app/app/templates
 cp -v "$SOURCE"/app/templates/base.html "$DESTINATION"/app/templates/
 cp -v "$SOURCE"/app/templates/index.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/login.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/register.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/reset_password.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/reset_password_request.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/edit_profile.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/change_password.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/qr.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/disable_2fa.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/two_factor_input.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/upload.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/photo.html "$DESTINATION"/app/templates/
-cp -v "$SOURCE"/app/templates/delete_photo.html "$DESTINATION"/app/templates/
 
-cp -v "$SOURCE"/app/templates/email/reset_password_email_html.html "$DESTINATION"/app/templates/email/
-cp -v "$SOURCE"/app/templates/email/reset_password_email_text.txt "$DESTINATION"/app/templates/email/
+[ ! -d "/var/lib/photo_app/app/auth" ] && mkdir /var/lib/photo_app/app/auth
+cp -v "$SOURCE"/app/auth/auth.py "$DESTINATION"/app/auth/
+cp -v "$SOURCE"/app/auth/totp.py "$DESTINATION"/app/auth/
+cp -v "$SOURCE"/app/auth/dis_totp.py "$DESTINATION"/app/auth/
+cp -v "$SOURCE"/app/auth/profile.py "$DESTINATION"/app/auth/
+cp -v "$SOURCE"/app/auth/register.py "$DESTINATION"/app/auth/
+cp -v "$SOURCE"/app/auth/reset_password.py "$DESTINATION"/app/auth/
+cp -v "$SOURCE"/app/auth/email.py "$DESTINATION"/app/auth/
 
-cp -v "$SOURCE"/app/scripts/set_contributor_id_seq.py "$DESTINATION"/app/scripts/
-cp -v "$SOURCE"/app/scripts/totp_utils.py "$DESTINATION"/app/scripts/
-cp -v "$SOURCE"/app/scripts/process_uploaded_photo.py "$DESTINATION"/app/scripts/
-cp -v "$SOURCE"/app/scripts/crop_photo.py "$DESTINATION"/app/scripts/
-cp -v "$SOURCE"/app/scripts/get_exif_data.py "$DESTINATION"/app/scripts/
-cp -v "$SOURCE"/app/scripts/get_photo_list.py "$DESTINATION"/app/scripts/
-cp -v "$SOURCE"/app/scripts/delete_photo.py "$DESTINATION"/app/scripts/
+[ ! -d "/var/lib/photo_app/app/auth/templates" ] && mkdir /var/lib/photo_app/app/auth/templates
+cp -v "$SOURCE"/app/auth/templates/two_factor_input.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/login.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/change_password.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/disable_2fa.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/edit_profile.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/qr.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/register.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/reset_password.html "$DESTINATION"/app/auth/templates/
+cp -v "$SOURCE"/app/auth/templates/reset_password_request.html "$DESTINATION"/app/auth/templates/
 
+[ ! -d "/var/lib/photo_app/app/auth/templates/email" ] && mkdir /var/lib/photo_app/app/auth/templates/email
+cp -v "$SOURCE"/app/auth/templates/email/reset_password_email_html.html "$DESTINATION"/app/auth/templates/email/
+cp -v "$SOURCE"/app/auth/templates/email/reset_password_email_text.txt "$DESTINATION"/app/auth/templates/email/
+
+[ ! -d "/var/lib/photo_app/app/photo_routes" ] && mkdir /var/lib/photo_app/app/photo_routes
+cp -v "$SOURCE"/app/photo_routes/proutes.py "$DESTINATION"/app/photo_routes/
+cp -v "$SOURCE"/app/photo_routes/photox.py "$DESTINATION"/app/photo_routes/
+cp -v "$SOURCE"/app/photo_routes/delete_download.py "$DESTINATION"/app/photo_routes/
+cp -v "$SOURCE"/app/photo_routes/photo_upload.py "$DESTINATION"/app/photo_routes/
+
+[ ! -d "/var/lib/photo_app/app/photo_routes/scripts" ] && mkdir /var/lib/photo_app/app/photo_routes/scripts
+cp -v "$SOURCE"/app/photo_routes/scripts/process_uploaded_photo.py "$DESTINATION"/app/photo_routes/scripts/
+cp -v "$SOURCE"/app/photo_routes/scripts/crop_photo.py "$DESTINATION"/app/photo_routes/scripts/
+cp -v "$SOURCE"/app/photo_routes/scripts/get_exif_data.py "$DESTINATION"/app/photo_routes/scripts/
+
+[ ! -d "/var/lib/photo_app/app/photo_routes/templates" ] && mkdir /var/lib/photo_app/app/photo_routes/templates
+cp -v "$SOURCE"/app/photo_routes/templates/upload.html "$DESTINATION"/app/photo_routes/templates/
+cp -v "$SOURCE"/app/photo_routes/templates/photo.html "$DESTINATION"/app/photo_routes/templates/
+cp -v "$SOURCE"/app/photo_routes/templates/delete_photo.html "$DESTINATION"/app/photo_routes/templates/
+
+[ ! -d "/var/lib/photo_app/css" ] && mkdir /var/lib/photo_app/css
 cp -v "$SOURCE"/css/photo_app.css "$DESTINATION"/css/
 
+[ ! -d "/var/lib/photo_app/js" ] && mkdir /var/lib/photo_app/js
 cp -v "$SOURCE"/js/photo_app.js "$DESTINATION"/js/
 
 chown -R photo_app:photo_app "$DESTINATION"
+chown root:root /etc/systemd/system/photo_app.service
 
 chmod 600 "$DESTINATION"/.env
 

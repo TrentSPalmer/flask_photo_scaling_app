@@ -12,10 +12,6 @@ class ConfirmPhotoDelete(FlaskForm):
     submit = SubmitField('Delete')
 
 
-class DisableTotp(FlaskForm):
-    submit = SubmitField('Disable 2FA')
-
-
 class GetTotp(FlaskForm):
     totp_code = StringField('6-Digit Code?', validators=[DataRequired(), Length(min=6, max=6, message="6 Digits")], render_kw={'autofocus': True})
     submit = SubmitField('OK')

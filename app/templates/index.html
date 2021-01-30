@@ -36,7 +36,7 @@
   <div class="indexPagePhotos">
     {% for photo in photos %}
       <div class="photoContainer">
-        <a href={{ url_for('photo', photo_id=photo['id']) }}>
+        <a href={{ url_for('p_route.photo', photo_id=photo['id']) }}>
           <img src={{ photo_url + '480_' + photo['photo_name'] }} alt={{ '480_' + photo['photo_name'] }}>
         </a>
       </div>
