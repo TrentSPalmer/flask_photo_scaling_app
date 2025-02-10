@@ -2,7 +2,9 @@
 
 from flask import current_app
 from flask_login import current_user
-from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
+from flask import (
+    Blueprint, render_template, redirect, url_for, flash, request, abort
+)
 from app.forms import UploadPhotoForm
 from .scripts.process_uploaded_photo import process_uploaded_photo
 from werkzeug.utils import secure_filename
@@ -23,10 +25,20 @@ def photo_upload():
         if filename != '':
             import os
             file_ext = os.path.splitext(filename)[1]
-            if file_ext not in ['.jpg', '.png'] or file_ext != validate_image(f.stream):
+            fe = file_ext
+            if fe not in ['.jpg', '.png'] or fe != validate_image(f.stream):
                 abort(400)
-            f.save(os.path.join(current_app.config['PHOTO_SAVE_PATH'], 'raw_' + filename))
-            photo_id = process_uploaded_photo(filename, current_user, current_app.config)
+            f.save(
+                os.path.join(
+                    current_app.config['PHOTO_SAVE_PATH'],
+                    'raw_' + filename,
+                ),
+            )
+            photo_id = process_uploaded_photo(
+                filename,
+                current_user,
+                current_app.config,
+            )
             print(photo_id)
             flash("Thanks for the new photo!")
             return(redirect(url_for('p_route.photo', photo_id=photo_id)))
