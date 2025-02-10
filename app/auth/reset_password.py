@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
-from flask import Blueprint, redirect, url_for, flash, render_template, current_app
+from flask import (
+    Blueprint, redirect, url_for, flash, render_template, current_app
+)
 from flask_login import current_user
 from app.models import Contributor
 from app.forms import ResetPasswordForm, ResetPasswordRequestForm
@@ -25,7 +27,11 @@ def reset_password(token):
         db.session.commit()
         flash('Your password has been reset.')
         return redirect(url_for('auths.login'))
-    return render_template('reset_password.html', title="New Password?", form=form)
+    return render_template(
+        'reset_password.html',
+        title="New Password?",
+        form=form,
+    )
 
 
 @pwd.route('/reset-password-request', methods=['GET', 'POST'])
@@ -35,12 +41,23 @@ def reset_password_request():
     else:
         form = ResetPasswordRequestForm()
         if form.validate_on_submit():
-            contributor = Contributor.query.filter_by(email=form.email.data).first()
+            contributor = Contributor.query.filter_by(
+                email=form.email.data,
+            ).first()
             if contributor:
-                send_password_reset_email(contributor, current_app.config['EXTERNAL_URL'])
-                flash('Check your email for the instructions to reset your password')
+                send_password_reset_email(
+                    contributor,
+                    current_app.config['EXTERNAL_URL'],
+                )
+                my_flash = 'Check your email for the instructions '
+                my_flash += 'to reset your password'
+                flash(my_flash)
                 return redirect(url_for('auths.login'))
             else:
                 flash('Sorry, invalid email')
                 return redirect(url_for('auths.login'))
-        return render_template('reset_password_request.html', title='Reset Password', form=form)
+        return render_template(
+            'reset_password_request.html',
+            title='Reset Password',
+            form=form,
+        )
