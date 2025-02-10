@@ -17,9 +17,15 @@ def register():
         return redirect(url_for('proute.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        db.engine.execute("SELECT setval('contributor_id_seq', (SELECT MAX(id) FROM contributor))")
+        my_sql = "SELECT setval('contributor_id_seq', "
+        my_sql += "(SELECT MAX(id) FROM contributor))"
+        db.engine.execute(my_sql)
         db.session.commit()
-        contributor = Contributor(name=form.username.data, num_photos=0, email=form.email.data)
+        contributor = Contributor(
+            name=form.username.data,
+            num_photos=0,
+            email=form.email.data,
+        )
         contributor.set_password(form.password.data)
         db.session.add(contributor)
         db.session.commit()
