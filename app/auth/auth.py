@@ -20,15 +20,25 @@ def two_factor_input():
         return redirect(url_for('proute.index'))
     form = GetTotp()
     if form.validate_on_submit():
-        if TOTP(contributor.totp_key).verify(int(form.totp_code.data), valid_window=5):
+        if TOTP(
+            contributor.totp_key,
+        ).verify(int(form.totp_code.data), valid_window=5):
             login_user(contributor, remember=session['remember_me'])
             flash("Congratulations, you are now logged in!")
             return redirect(url_for('proute.index'))
         else:
             flash("Oops, the pin was wrong")
             form.totp_code.data = None
-            return render_template('two_factor_input.html', form=form, inst="Code was wrong, try again?")
-    return render_template('two_factor_input.html', form=form, inst="Enter Auth Code")
+            return render_template(
+                'two_factor_input.html',
+                form=form,
+                inst="Code was wrong, try again?",
+            )
+    return render_template(
+        'two_factor_input.html',
+        form=form,
+        inst="Enter Auth Code",
+    )
 
 
 @auths.route("/login", methods=["GET", "POST"])
@@ -37,9 +47,14 @@ def login():
         return redirect(url_for('proute.index'))
     form = LoginForm()
     if form.validate_on_submit():
-        contributor_by_name = Contributor.query.filter_by(name=form.username.data).first()
-        contributor_by_email = Contributor.query.filter_by(email=form.email.data).first()
-        if contributor_by_name is not None and contributor_by_name.check_password(form.password.data):
+        contributor_by_name = Contributor.query.filter_by(
+            name=form.username.data,
+        ).first()
+        contributor_by_email = Contributor.query.filter_by(
+            email=form.email.data,
+        ).first()
+        cbn, cbe = contributor_by_name, contributor_by_email
+        if cbn is not None and cbn.check_password(form.password.data):
             if contributor_by_name.use_totp:
                 session['id'] = contributor_by_name.id
                 session['remember_me'] = form.remember_me.data
@@ -48,13 +63,16 @@ def login():
                 login_user(contributor_by_name, remember=form.remember_me.data)
                 flash("Congratulations, you are now logged in!")
                 return redirect(url_for('proute.index'))
-        elif contributor_by_email is not None and contributor_by_email.check_password(form.password.data):
+        elif cbe is not None and cbe.check_password(form.password.data):
             if contributor_by_email.use_totp:
                 session['id'] = contributor_by_email.id
                 session['remember_me'] = form.remember_me.data
                 return redirect(url_for('auths.two_factor_input'))
             else:
-                login_user(contributor_by_email, remember=form.remember_me.data)
+                login_user(
+                    contributor_by_email,
+                    remember=form.remember_me.data,
+                )
                 flash("Congratulations, you are now logged in!")
                 return redirect(url_for('proute.index'))
         else:
