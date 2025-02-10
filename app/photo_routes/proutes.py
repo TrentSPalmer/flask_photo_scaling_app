@@ -33,7 +33,9 @@ def get_photo_list(contributor_id):
         password=current_app.config['DATABASE_PASSWORD']
     )
     cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-    cur.execute("SELECT photo_name,id FROM photo WHERE contributor_id=%s ORDER BY timestamp,\"DateTimeOriginal\" DESC", (contributor_id, ))
+    my_sql = "SELECT photo_name,id FROM photo WHERE contributor_id=%s "
+    my_sql += "ORDER BY timestamp,\"DateTimeOriginal\" DESC"
+    cur.execute(my_sql, (contributor_id, ))
     photos = cur.fetchall()
     conn.close()
     return photos
