@@ -32,7 +32,12 @@ def enable_totp():
         else:
             flash("TOTP Code didn't validate, rescan and try again")
             return(redirect(url_for('prof.edit_profile')))
-    return render_template('qr.html', qr=qr, form=form, title="Aunthentication Code")
+    return render_template(
+        'qr.html',
+        qr=qr,
+        form=form,
+        title="Aunthentication Code",
+    )
 
 
 def get_totp_qr(contributor):
@@ -40,7 +45,9 @@ def get_totp_qr(contributor):
         contributor.totp_key = pyotp.random_base32()
         db.session.commit()
 
-    totp_uri = pyotp.totp.TOTP(contributor.totp_key).provisioning_uri(name=contributor.email, issuer_name='Photo App')
+    totp_uri = pyotp.totp.TOTP(
+        contributor.totp_key,
+    ).provisioning_uri(name=contributor.email, issuer_name='Photo App')
     img = qrcode.make(totp_uri, image_factory=qrcode.image.svg.SvgPathImage)
     f = BytesIO()
     img.save(f)
