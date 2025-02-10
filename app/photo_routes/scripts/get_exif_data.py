@@ -26,15 +26,30 @@ def get_exif(img_raw, exif_data):
                     if v == "Software":
                         exif_data['Software'] = exifdata[k]
                     if v == "DateTime":
-                        exif_data['DateTime'] = datetime.strptime(exifdata[k], date_format)
+                        exif_data['DateTime'] = datetime.strptime(
+                            exifdata[k],
+                            date_format,
+                        )
                     if v == "DateTimeOriginal":
-                        exif_data['DateTimeOriginal'] = datetime.strptime(exifdata[k], date_format)
+                        exif_data['DateTimeOriginal'] = datetime.strptime(
+                            exifdata[k],
+                            date_format,
+                        )
                     if v == "DateTimeDigitized":
-                        exif_data['DateTimeDigitized'] = datetime.strptime(exifdata[k], date_format)
+                        exif_data['DateTimeDigitized'] = datetime.strptime(
+                            exifdata[k],
+                            date_format,
+                        )
                     if v == "FNumber":
-                        exif_data['fnumber'] = round(exifdata[k][0] / exifdata[k][1], 1)
+                        exif_data['fnumber'] = round(
+                            exifdata[k][0] / exifdata[k][1],
+                            1,
+                        )
                     if v == "DigitalZoomRatio":
-                        exif_data['DigitalZoomRatio'] = round(exifdata[k][0] / exifdata[k][1], 2)
+                        exif_data['DigitalZoomRatio'] = round(
+                            exifdata[k][0] / exifdata[k][1],
+                            2,
+                        )
                     if v == "TimeZoneOffset":
                         exif_data['TimeZoneOffset'] = exifdata[k]
                     if v == "GPSInfo":
@@ -42,28 +57,46 @@ def get_exif(img_raw, exif_data):
                         for h, i in GPSTAGS.items():
                             if h in exifdata[k]:
                                 if i == 'GPSAltitudeRef':
-                                    gpsinfo['GPSAltitudeRef'] = int.from_bytes(exifdata[k][h], "big")
+                                    gpsinfo['GPSAltitudeRef'] = int.from_bytes(
+                                        exifdata[k][h],
+                                        "big",
+                                    )
                                 if i == 'GPSAltitude':
-                                    gpsinfo['GPSAltitude'] = round(exifdata[k][h][0] / exifdata[k][h][1], 3)
+                                    gpsinfo['GPSAltitude'] = round(
+                                        exifdata[k][h][0] / exifdata[k][h][1],
+                                        3,
+                                    )
                                 if i == 'GPSLatitudeRef':
                                     gpsinfo['GPSLatitudeRef'] = exifdata[k][h]
                                 if i == 'GPSLatitude':
-                                    gpsinfo['GPSLatitude'] = calc_coordinate(exifdata[k][h])
+                                    gpsinfo['GPSLatitude'] = calc_coordinate(
+                                        exifdata[k][h],
+                                    )
                                 if i == 'GPSLongitudeRef':
                                     gpsinfo['GPSLongitudeRef'] = exifdata[k][h]
                                 if i == 'GPSLongitude':
-                                    gpsinfo['GPSLongitude'] = calc_coordinate(exifdata[k][h])
+                                    gpsinfo['GPSLongitude'] = calc_coordinate(
+                                        exifdata[k][h],
+                                    )
                         update_gpsinfo(gpsinfo, exif_data)
 
 
 def update_gpsinfo(gpsinfo, exif_data):
     if 'GPSAltitudeRef' in gpsinfo and 'GPSLatitude' in gpsinfo:
         exif_data['GPSAltitude'] = gpsinfo['GPSAltitude']
-        exif_data['GPSAboveSeaLevel'] = False if gpsinfo['GPSAltitudeRef'] != 0 else True
+        exif_data['GPSAboveSeaLevel'] = False
+        if gpsinfo['GPSAltitudeRef'] == 0:
+            exif_data['GPSAboveSeaLevel'] = True
     if 'GPSLatitudeRef' in gpsinfo and 'GPSLatitude' in gpsinfo:
-        exif_data['GPSLatitude'] = gpsinfo['GPSLatitude'] if gpsinfo['GPSLatitudeRef'] != 'S' else 0 - gpsinfo['GPSLatitude']
+        if gpsinfo['GPSLatitudeRef'] != 'S':
+            exif_data['GPSLatitude'] = gpsinfo['GPSLatitude']
+        else:
+            exif_data['GPSLatitude'] = 0 - gpsinfo['GPSLatitude']
     if 'GPSLongitudeRef' in gpsinfo and 'GPSLongitude' in gpsinfo:
-        exif_data['GPSLongitude'] = gpsinfo['GPSLongitude'] if gpsinfo['GPSLongitudeRef'] != 'W' else 0 - gpsinfo['GPSLongitude']
+        if gpsinfo['GPSLongitudeRef'] != 'W':
+            exif_data['GPSLongitude'] = gpsinfo['GPSLongitude']
+        else:
+            exif_data['GPSLongitude'] = 0 - gpsinfo['GPSLongitude']
 
 
 def calc_coordinate(x):
