@@ -24,8 +24,10 @@ class SENDXMPPHandler(Handler):
         self.logging_xmpp_use_tls = logging_xmpp_use_tls
 
     '''
-    This works on Debian 10 with flask running under gunicorn3 as a systemd service, hack as necessary
-    echo '<message>' | /usr/bin/sendxmpp -t -u <sender> -j <server> -p <password> <recipient@example.com>
+    This works on Debian 10 with flask running under
+    gunicorn3 as a systemd service, hack as necessary
+    echo '<message>' | /usr/bin/sendxmpp -t -u <sender> \
+        -j <server> -p <password> <recipient@example.com>
     '''
     def emit(self, record):
         try:
