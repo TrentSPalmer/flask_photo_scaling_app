@@ -34,19 +34,35 @@ def find_next_previous(photo):
         password=current_app.config['DATABASE_PASSWORD']
     )
     cur = conn.cursor()
-    cur.execute("SELECT count(id) FROM photo WHERE contributor_id=%s AND id > %s", (photo.contributor_id, photo.id))
+    cur.execute(
+        "SELECT count(id) FROM photo WHERE contributor_id=%s AND id > %s",
+        (photo.contributor_id, photo.id),
+    )
     count = cur.fetchone()[0]
     if count == 0:
-        cur.execute("SELECT id FROM photo WHERE contributor_id=%s ORDER BY id", (photo.contributor_id, ))
+        cur.execute(
+            "SELECT id FROM photo WHERE contributor_id=%s ORDER BY id",
+            (photo.contributor_id, ),
+        )
     else:
-        cur.execute("SELECT id FROM photo WHERE contributor_id=%s AND id > %s ORDER BY id", (photo.contributor_id, photo.id))
+        my_sql = "SELECT id FROM photo WHERE contributor_id=%s "
+        my_sql += "AND id > %s ORDER BY id"
+        cur.execute(my_sql, (photo.contributor_id, photo.id))
     photo.next_photo_id = cur.fetchone()[0]
-    cur.execute("SELECT count(id) FROM photo WHERE contributor_id=%s AND id < %s", (photo.contributor_id, photo.id))
+    cur.execute(
+        "SELECT count(id) FROM photo WHERE contributor_id=%s AND id < %s",
+        (photo.contributor_id, photo.id),
+    )
     count = cur.fetchone()[0]
     if count == 0:
-        cur.execute("SELECT id FROM photo WHERE contributor_id=%s ORDER BY id DESC", (photo.contributor_id, ))
+        cur.execute(
+            "SELECT id FROM photo WHERE contributor_id=%s ORDER BY id DESC",
+            (photo.contributor_id, ),
+        )
     else:
-        cur.execute("SELECT id FROM photo WHERE contributor_id=%s AND id < %s ORDER BY id DESC", (photo.contributor_id, photo.id))
+        my_sql = "SELECT id FROM photo WHERE contributor_id=%s "
+        my_sql += "AND id < %s ORDER BY id DESC"
+        cur.execute(my_sql, (photo.contributor_id, photo.id))
     photo.previous_photo_id = cur.fetchone()[0]
     conn.close()
 
@@ -58,11 +74,17 @@ def calc_additional_data(photo):
     else:
         photo.SizeOnDisc = str(round(photo.photo_raw_size / 1024, 1)) + 'K'
     if photo.photo_1280_size >= 1048576:
-        photo.SizeOnDisc1280 = str(round(photo.photo_1280_size / 1048576, 1)) + 'M'
+        photo.SizeOnDisc1280 = str(
+            round(photo.photo_1280_size / 1048576, 1),
+        ) + 'M'
     else:
-        photo.SizeOnDisc1280 = str(round(photo.photo_1280_size / 1024, 1)) + 'K'
+        photo.SizeOnDisc1280 = str(
+            round(photo.photo_1280_size / 1024, 1),
+        ) + 'K'
     if photo.photo_480_size >= 1048576:
-        photo.SizeOnDisc480 = str(round(photo.photo_480_size / 1048576, 1)) + 'M'
+        photo.SizeOnDisc480 = str(
+            round(photo.photo_480_size / 1048576, 1),
+        ) + 'M'
     else:
         photo.SizeOnDisc480 = str(round(photo.photo_480_size / 1024, 1)) + 'K'
     if photo.GPSAltitude is not None:
@@ -71,6 +93,8 @@ def calc_additional_data(photo):
         photo.GPSAltitudeFeet = None
     if photo.GPSLatitude is not None and photo.GPSLongitude is not None:
         photo.LatLong = "{},{}".format(photo.GPSLatitude, photo.GPSLongitude)
-        photo.MapUrl = "https://www.google.com/maps/search/?api=1&query={}".format(photo.LatLong)
+        my_map_url = "https://www.google.com/"
+        my_map_url += "maps/search/?api=1&query={}".format(photo.LatLong)
+        photo.MapUrl = my_map_url
     else:
         photo.LatLong, photo.MapUrl = None, None
