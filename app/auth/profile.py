@@ -26,7 +26,11 @@ def change_password():
         else:
             flash("Error Invalid Password")
             return(redirect(url_for('prof.change_password')))
-    return render_template('change_password.html', title='Change Password', form=form)
+    return render_template(
+        'change_password.html',
+        title='Change Password',
+        form=form,
+    )
 
 
 @prof.route("/edit-profile", methods=["GET", "POST"])
