@@ -10,6 +10,28 @@ from .get_exif_data import get_exif_data
 def process_uploaded_photo(filename, current_user, app_config):
     crop_photo(filename, app_config['PHOTO_SAVE_PATH'])
     exif_data = get_exif_data(filename)
+
+    if 'DateTimeOriginal' in exif_data:
+        my_date_time_original = exif_data['DateTimeOriginal']
+    else:
+        my_date_time_original = None
+    if 'DateTimeDigitized' in exif_data:
+        my_date_time_digitized = exif_data['DateTimeDigitized']
+    else:
+        my_date_time_digitized = None
+    if 'DigitalZoomRatio' in exif_data:
+        my_digital_zoom_ratio = exif_data['DigitalZoomRatio']
+    else:
+        my_digital_zoom_ratio = None
+    if 'TimeZoneOffset' in exif_data:
+        my_timezone_offset = exif_data['TimeZoneOffset']
+    else:
+        my_timezone_offset = None
+    if 'GPSAboveSeaLevel' in exif_data:
+        my_gps_above_sealevel = exif_data['GPSAboveSeaLevel']
+    else:
+        my_gps_above_sealevel = None
+
     conn = psycopg2.connect(
         dbname=app_config['DATABASE_NAME'],
         user=app_config['DATABASE_USER'],
@@ -19,7 +41,10 @@ def process_uploaded_photo(filename, current_user, app_config):
     cur = conn.cursor()
     cur.execute("SELECT setval('photo_id_seq', (SELECT MAX(id) FROM photo))")
     conn.commit()
-    cur.execute("SELECT count(id) FROM photo WHERE photo_name=%s", (filename, ))
+    cur.execute(
+        "SELECT count(id) FROM photo WHERE photo_name=%s",
+        (filename, ),
+    )
     if cur.fetchone()[0] == 0:
         sql_statement = "INSERT INTO photo("
 
@@ -84,14 +109,14 @@ def process_uploaded_photo(filename, current_user, app_config):
             exif_data['Model'] if 'Model' in exif_data else None,
             exif_data['Software'] if 'Software' in exif_data else None,
             exif_data['DateTime'] if 'DateTime' in exif_data else None,
-            exif_data['DateTimeOriginal'] if 'DateTimeOriginal' in exif_data else None,
-            exif_data['DateTimeDigitized'] if 'DateTimeDigitized' in exif_data else None,
+            my_date_time_original,
+            my_date_time_digitized,
             exif_data['fnumber'] if 'fnumber' in exif_data else None,
-            exif_data['DigitalZoomRatio'] if 'DigitalZoomRatio' in exif_data else None,
+            my_digital_zoom_ratio,
             exif_data['AspectRatio'],
-            exif_data['TimeZoneOffset'] if 'TimeZoneOffset' in exif_data else None,
+            my_timezone_offset,
             exif_data['GPSAltitude'] if 'GPSAltitude' in exif_data else None,
-            exif_data['GPSAboveSeaLevel'] if 'GPSAboveSeaLevel' in exif_data else None,
+            my_gps_above_sealevel,
             exif_data['GPSLatitude'] if 'GPSLatitude' in exif_data else None,
             exif_data['GPSLongitude'] if 'GPSLongitude' in exif_data else None,
             int(time() * 1000)
@@ -145,14 +170,14 @@ def process_uploaded_photo(filename, current_user, app_config):
             exif_data['Model'] if 'Model' in exif_data else None,
             exif_data['Software'] if 'Software' in exif_data else None,
             exif_data['DateTime'] if 'DateTime' in exif_data else None,
-            exif_data['DateTimeOriginal'] if 'DateTimeOriginal' in exif_data else None,
-            exif_data['DateTimeDigitized'] if 'DateTimeDigitized' in exif_data else None,
+            my_date_time_original,
+            my_date_time_digitized,
             exif_data['fnumber'] if 'fnumber' in exif_data else None,
-            exif_data['DigitalZoomRatio'] if 'DigitalZoomRatio' in exif_data else None,
+            my_digital_zoom_ratio,
             exif_data['AspectRatio'],
-            exif_data['TimeZoneOffset'] if 'TimeZoneOffset' in exif_data else None,
+            my_timezone_offset,
             exif_data['GPSAltitude'] if 'GPSAltitude' in exif_data else None,
-            exif_data['GPSAboveSeaLevel'] if 'GPSAboveSeaLevel' in exif_data else None,
+            my_gps_above_sealevel,
             exif_data['GPSLatitude'] if 'GPSLatitude' in exif_data else None,
             exif_data['GPSLongitude'] if 'GPSLongitude' in exif_data else None,
             int(time() * 1000),
