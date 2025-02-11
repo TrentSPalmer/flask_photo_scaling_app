@@ -41,15 +41,19 @@ def get_exif(img_raw, exif_data):
                             date_format,
                         )
                     if v == "FNumber":
-                        exif_data['fnumber'] = round(
-                            exifdata[k][0] / exifdata[k][1],
-                            1,
-                        )
+                        if type(exifdata[k]) == tuple:
+                            x, y = exifdata[k][0], exifdata[k][1]
+                        else:
+                            x = exifdata[k].numerator
+                            y = exifdata[k].denominator
+                        exif_data['fnumber'] = round(x / y, 1)
                     if v == "DigitalZoomRatio":
-                        exif_data['DigitalZoomRatio'] = round(
-                            exifdata[k][0] / exifdata[k][1],
-                            2,
-                        )
+                        if type(exifdata[k]) == tuple:
+                            x, y = exifdata[k][0], exifdata[k][1]
+                        else:
+                            x = exifdata[k].numerator
+                            y = exifdata[k].denominator
+                        exif_data['DigitalZoomRatio'] = round(x / y, 2)
                     if v == "TimeZoneOffset":
                         exif_data['TimeZoneOffset'] = exifdata[k]
                     if v == "GPSInfo":
@@ -62,10 +66,13 @@ def get_exif(img_raw, exif_data):
                                         "big",
                                     )
                                 if i == 'GPSAltitude':
-                                    gpsinfo['GPSAltitude'] = round(
-                                        exifdata[k][h][0] / exifdata[k][h][1],
-                                        3,
-                                    )
+                                    if type(exifdata[k][h]) == tuple:
+                                        x = exifdata[k][h][0]
+                                        y = exifdata[k][h][1]
+                                    else:
+                                        x = exifdata[k][h].numerator
+                                        y = exifdata[k][h].denominator
+                                    gpsinfo['GPSAltitude'] = round(x / y, 3)
                                 if i == 'GPSLatitudeRef':
                                     gpsinfo['GPSLatitudeRef'] = exifdata[k][h]
                                 if i == 'GPSLatitude':
@@ -100,10 +107,20 @@ def update_gpsinfo(gpsinfo, exif_data):
 
 
 def calc_coordinate(x):
-    degrees = x[0][0] / x[0][1]
-    minutes = x[1][0] / x[1][1]
-    seconds = x[2][0] / x[2][1]
-    return round(degrees + minutes / 60 + seconds / 3600, 5)
+    if type(x[0]) == tuple:
+        degrees = x[0][0] / x[0][1]
+    else:
+        degrees = x[0].numerator / x[0].denominator
+    if type(x[1]) == tuple:
+        minutes = x[1][0] / x[1][1]
+    else:
+        minutes = x[1].numerator / x[1].denominator
+    if type(x[2]) == tuple:
+        seconds = x[2][0] / x[2][1]
+    else:
+        seconds = x[2].numerator / x[2].denominator
+    result = round(degrees + minutes / 60 + seconds / 3600, 5)
+    return result
 
 
 def get_dimensions_and_format(photo, exif_data):
