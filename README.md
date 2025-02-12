@@ -85,3 +85,6 @@ For 2fa, you can use an authenticator application such as
 2. install certbot and get certs for each of the two subdomains
 2. install service file in `/etc/systemd/system`
 2. enable and start systemd service
+
+## Debian 12 Upgrade
+2. wtforms.validators now requires `python3-wtforms-components` for the email validator
